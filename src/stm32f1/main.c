@@ -5,6 +5,8 @@
 // This file may be distributed under the terms of the GNU GPLv3 license.
 
 #include "autoconf.h"
+#include "board/internal.h" // udelay
+#include "board/misc.h" // timer_read_time
 #include "command.h" // DECL_CONSTANT
 #include "stm32f1xx.h"
 #include "stm32f1xx_ll_system.h"
@@ -17,7 +19,8 @@
 #include "stm32f1xx_ll_spi.h"
 #include "sched.h" // sched_main
 
-DECL_CONSTANT(MCU, "stm32f103");
+DECL_CONSTANT_STR("MCU", "stm32f103");
+
 
 /****************************************************************
  * dynamic memory pool
@@ -112,8 +115,6 @@ void adc_config(void)
 void spi_config(void)
 {
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_SPI2);
-    LL_SPI_SetNSSMode(SPI2, LL_SPI_NSS_SOFT);
-    LL_SPI_SetMode(SPI2, LL_SPI_MODE_MASTER);
 }
 
 void io_config(void)
